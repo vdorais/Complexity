@@ -4,7 +4,7 @@
   "description": "Static and dynamic analysis",
   "main": "analysis.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha" 
   },
   "repository": {
     "type": "git",
@@ -14,6 +14,10 @@
     "static",
     "dynamic"
   ],
+  "dependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0"
+  },	
   "author": "you",
   "license": "ISC",
   "devDependencies": {
