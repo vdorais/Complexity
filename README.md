@@ -52,8 +52,10 @@ The repository contains a stub that parses a javascript file and visits each fun
 
 2. Do a simple calculation
 
+   * **PackageComplexity**: The number of imports used in the file.
+   * **StringCount**: The number of strings used in the file.
    * **ParameterCount**: The number of parameters for functions
-   * **PackageComplexity**: The number of imports used by code.
+
 
 3. Statements inside a function.
 
