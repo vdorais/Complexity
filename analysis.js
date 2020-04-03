@@ -2,17 +2,44 @@ var esprima = require("esprima");
 var options = {tokens:true, tolerant: true, loc: true, range: true };
 var fs = require("fs");
 
+
+const path = require("path");
+const getAllFiles = function(dirPath, arrayOfFiles) {
+  files = fs.readdirSync(dirPath)
+ 
+  arrayOfFiles = arrayOfFiles || []
+ 
+  files.forEach(function(file) {
+    if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+      arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
+    } else {
+	  if (file.endsWith("js")){		
+      arrayOfFiles.push(path.join(dirPath, "/", file))
+	  }
+    }
+  })
+  
+  console.log(arrayOfFiles)
+
+  return arrayOfFiles
+} 
+
 function main()
 {
 	var args = process.argv.slice(2);
-
+	const result = getAllFiles("/home/vaish/checkbox/checkbox.io/server-side/site")
+	
 	if( args.length == 0 )
 	{
 		args = ["analysis.js"];
 	}
-	var filePath = args[0];
-	
-	complexity(filePath);
+	//var filePath = args[0];
+	var filePath = result
+	for (let file_name of filePath){
+
+		complexity(file_name)
+	}	
+	//complexity(filePath);
 
 	// Report
 	for( var node in builders )
@@ -22,6 +49,10 @@ function main()
 	}
 
 }
+
+
+ 
+ 
 
 
 
@@ -40,6 +71,8 @@ function FunctionBuilder()
 	this.MaxNestingDepth    = 0;
 	// The max number of conditions if one decision statement.
 	this.MaxConditions      = 0;
+	this.MaxMsgChains = 0;
+	this.LOC=0
 
 	this.report = function()
 	{
@@ -50,16 +83,18 @@ function FunctionBuilder()
 			   "SimpleCyclomaticComplexity: {2}\t" +
 				"MaxNestingDepth: {3}\t" +
 				"MaxConditions: {4}\t" +
-				"Parameters: {5}\n\n"
+				"Parameters: {5}\t"+
+				"MaxMsgChains : {6}\n\t"+
+				"LOC: {7}"
 			)
 			.format(this.FunctionName, this.StartLine,
 				     this.SimpleCyclomaticComplexity, this.MaxNestingDepth,
-			        this.MaxConditions, this.ParameterCount)
+			        this.MaxConditions, this.ParameterCount,this.MaxMsgChains, this.LOC)
 		);
 	}
 };
 
-// A builder for storing file level information.
+// A builder for storing file level information
 function FileBuilder()
 {
 	this.FileName = "";
@@ -99,13 +134,16 @@ function traverseWithParents(object, visitor)
     }
 }
 
+
+
 function complexity(filePath)
 {
+	console.log(filePath)
 	var buf = fs.readFileSync(filePath, "utf8");
 	var ast = esprima.parse(buf, options);
 
 	var i = 0;
-
+	
 	// A file level-builder:
 	var fileBuilder = new FileBuilder();
 	fileBuilder.FileName = filePath;
@@ -118,14 +156,40 @@ function complexity(filePath)
 		if (node.type === 'FunctionDeclaration') 
 		{
 			var builder = new FunctionBuilder();
-
+			fname = functionName(node);
 			builder.FunctionName = functionName(node);
 			builder.StartLine    = node.loc.start.line;
-
+			builder.EndLine    = node.loc.end.line;
+			builder.LOC = builder.EndLine - builder.StartLine 
 			builders[builder.FunctionName] = builder;
+		
+			traverseWithParents(node, function(node){
+			if (node.type === 'MemberExpression') 
+			{
+				builder = builders[fname];
+				//builder.MaxMsgChains = Math.max(local,builder.MaxMsgChains);
+				//console.log(builder.FunctionName, builder.MaxConditions)
+				local = 0
+				traverseWithParents(node, function(node){
+					if (node.type=='MemberExpression'){ 
+						console.log(local)
+						local = local + 1;
+						if (local>builder.MaxMsgChains){
+							builder.MaxMsgChains = local;
+						}
+					}
+				
+				});
+				builders[fname] = builder;
+				console.log(builders[fname])
+			}
 		}
+			)}	
+	
 
 	});
+
+	
 
 }
 
@@ -159,6 +223,7 @@ function isDecision(node)
 	}
 	return false;
 }
+
 
 // Helper function for printing out function name.
 function functionName( node )
