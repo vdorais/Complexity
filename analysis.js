@@ -136,7 +136,7 @@ function traverseWithParents(object, visitor)
 
 function maxif(object,depth)
 {
-	builder = builders[func_name]
+	builder = builders[fname]
 	builder.MaxNestingDepth = Math.max(depth,builder.MaxNestingDepth)
 	builders[builder] = builder
     for (key in object) {
@@ -175,6 +175,7 @@ function complexity(filePath)
 	// A file level-builder:
 	var fileBuilder = new FileBuilder();
 	fileBuilder.FileName = filePath;
+	fname="";
 	fileBuilder.ImportCount = 0;
 	builders[filePath] = fileBuilder;
 
@@ -215,7 +216,7 @@ function complexity(filePath)
 			)}	
 
 			traverseWithParents(node, function(node){
-				builder = builders[func_name]
+				builder = builders[fname]
 				depth = 0
 				if (node.type === 'IfStatement'){
 					depth_fn(node,depth)
