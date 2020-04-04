@@ -213,6 +213,14 @@ function complexity(filePath)
 			}
 		}
 			)}	
+
+			traverseWithParents(node, function(node){
+				builder = builders[func_name]
+				depth = 0
+				if (node.type === 'IfStatement'){
+					depth_fn(node,depth)
+				}
+			})
 	
 
 	});
