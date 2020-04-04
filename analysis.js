@@ -27,8 +27,8 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
 function main()
 {
 	var args = process.argv.slice(2);
-	// const result = getAllFiles("./app/server-side")
-	const result = getAllFiles('/home/vaishnavidoraiswamy/checkbox.io/server-side/site/')
+	const result = getAllFiles("./app/server-side")
+	//const result = getAllFiles('/home/vaishnavidoraiswamy/checkbox.io/server-side/site/')
 
 	console.log(result)
 	
