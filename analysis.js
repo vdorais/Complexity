@@ -219,7 +219,7 @@ function complexity(filePath)
 				builder = builders[fname]
 				depth = 0
 				if (node.type === 'IfStatement'){
-					depth_fn(node,depth)
+					maxif(node,depth)
 				}
 			})
 	
