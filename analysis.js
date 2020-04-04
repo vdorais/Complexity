@@ -134,6 +134,34 @@ function traverseWithParents(object, visitor)
     }
 }
 
+function maxif(object,depth)
+{
+	builder = builders[func_name]
+	builder.MaxNestingDepth = Math.max(depth,builder.MaxNestingDepth)
+	builders[builder] = builder
+    for (key in object) {
+        if (object.hasOwnProperty(key)) {
+            child = object[key];
+            if (typeof child === 'object' && child !== null && key != 'parent') 
+            {
+            	child.parent = object;
+				if(object.type === 'IfStatement' && object.alternate === null){
+					// console.log(object.test.name)
+					maxif(child,depth+1)
+				}
+				else if(object.type === 'IfStatement'){
+					maxif(object.consequent,depth+1)
+					maxif(object.alternate,depth)
+				}
+				else{
+					maxif(child,depth)
+				}
+            }
+        }
+    }
+}
+
+
 
 
 function complexity(filePath)
