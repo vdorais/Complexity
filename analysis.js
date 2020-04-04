@@ -28,6 +28,7 @@ function main()
 {
 	var args = process.argv.slice(2);
 	const result = getAllFiles("./app/server-side")
+	// const result = getAllFiles('/home/vaishnavidoraiswamy/checkbox.io/server-side/site/')
 	
 	if( args.length == 0 )
 	{
@@ -211,7 +212,7 @@ function complexity(filePath)
 				});
 				builders[fname] = builder;
 				console.log(builders[fname])
-			}	
+			}})	
 		
 
 			traverseWithParents(node, function(node){
@@ -221,12 +222,10 @@ function complexity(filePath)
 					maxif(node,depth)
 				}
 			})
-
+		}
 
 
 	});
-
-	
 
 }
 
