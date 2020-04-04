@@ -1,7 +1,9 @@
 var esprima = require("esprima");
 var options = {tokens:true, tolerant: true, loc: true, range: true };
 var fs = require("fs");
-
+var LOC = 1000;
+var chains = 100;
+var nesting_if = 50;
 
 const path = require("path");
 const getAllFiles = function(dirPath, arrayOfFiles) {
@@ -79,6 +81,26 @@ function FunctionBuilder()
 
 	this.report = function()
 	{
+		
+		if (LOC < this.LOC){
+			console.log(chalk.red("LOC threshold exceeded for ", "\"",this.FunctionName,"\"", " function in file --- ", "\"",this.FileName,"\""))
+			throw console.error("Threshold for LOC has been exceeded")
+		}
+		if (nesting_if < this.MaxNestingDepth){
+			console.log(chalk.red("Nested if threshold has been exceeded for ", "\"",this.FunctionName,"\"", " function in file ---", this.FileName))
+			throw console.error("Threshold for Nestedif has been exceeded")
+		}
+		if (chains < this. MaxMsgChains){
+			console.log(chalk.red("Max Msg chains has been exceeded ","\"",this.FunctionName,"\"", " function in file ---", this.FileName))
+			throw console.error("Max message chain has been exceeded")
+		}
+		
+		
+		
+		
+		
+		
+		
 		console.log(
 		   (
 		   	"{0}(): {1}\n" +
