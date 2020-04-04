@@ -211,9 +211,8 @@ function complexity(filePath)
 				});
 				builders[fname] = builder;
 				console.log(builders[fname])
-			}
-		}
-			)}	
+			}	
+		
 
 			traverseWithParents(node, function(node){
 				builder = builders[fname]
@@ -222,7 +221,8 @@ function complexity(filePath)
 					maxif(node,depth)
 				}
 			})
-	
+
+
 
 	});
 
