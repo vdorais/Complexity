@@ -13,13 +13,13 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
     if (fs.statSync(dirPath + "/" + file).isDirectory()) {
       arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
     } else {
-	  if (file.endsWith("js")){		
+	  if (file.endsWith("js") && dirPath.includes('node_modules')==false){		
       arrayOfFiles.push(path.join(dirPath, "/", file))
 	  }
     }
   })
   
-  console.log(arrayOfFiles)
+//   console.log(arrayOfFiles)
 
   return arrayOfFiles
 } 
@@ -27,8 +27,10 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
 function main()
 {
 	var args = process.argv.slice(2);
-	const result = getAllFiles("./app/server-side")
-	// const result = getAllFiles('/home/vaishnavidoraiswamy/checkbox.io/server-side/site/')
+	// const result = getAllFiles("./app/server-side")
+	const result = getAllFiles('/home/vaishnavidoraiswamy/checkbox.io/server-side/site/')
+
+	console.log(result)
 	
 	if( args.length == 0 )
 	{
@@ -167,7 +169,7 @@ function maxif(object,depth)
 
 function complexity(filePath)
 {
-	console.log(filePath)
+	// console.log(filePath)
 	var buf = fs.readFileSync(filePath, "utf8");
 	var ast = esprima.parse(buf, options);
 
@@ -202,7 +204,7 @@ function complexity(filePath)
 				local = 0
 				traverseWithParents(node, function(node){
 					if (node.type=='MemberExpression'){ 
-						console.log(local)
+						// console.log(local)
 						local = local + 1;
 						if (local>builder.MaxMsgChains){
 							builder.MaxMsgChains = local;
@@ -211,7 +213,7 @@ function complexity(filePath)
 				
 				});
 				builders[fname] = builder;
-				console.log(builders[fname])
+				// console.log(builders[fname])
 			}})	
 		
 
