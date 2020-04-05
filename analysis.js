@@ -223,7 +223,7 @@ function complexity(filePath)
 				builder = builders[fname];
 				//builder.MaxMsgChains = Math.max(local,builder.MaxMsgChains);
 				//console.log(builder.FunctionName, builder.MaxConditions)
-				local = 0
+				current = 0
 				traverseWithParents(node, function(node){
 					if (node.type=='MemberExpression'){ 
 						// console.log(local)
