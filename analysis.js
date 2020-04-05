@@ -227,8 +227,8 @@ function complexity(filePath)
 				traverseWithParents(node, function(node){
 					if (node.type=='MemberExpression'){ 
 						// console.log(local)
-						local = local + 1;
-						if (local>builder.MaxMsgChains){
+						current = current + 1;
+						if (current>builder.MaxMsgChains){
 							builder.MaxMsgChains = local;
 						}
 					}
@@ -241,9 +241,9 @@ function complexity(filePath)
 
 			traverseWithParents(node, function(node){
 				builder = builders[fname]
-				depth = 0
+				nesting = 0
 				if (node.type === 'IfStatement'){
-					maxif(node,depth)
+					maxif(node,nesting)
 				}
 			})
 		}
