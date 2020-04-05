@@ -1,9 +1,9 @@
 var esprima = require("esprima");
 var options = {tokens:true, tolerant: true, loc: true, range: true };
 var fs = require("fs");
-var LOC = 1000;
-var chains = 100;
-var nesting_if = 50;
+var LOC = 90;
+var chains = 10;
+var nesting_if = 5;
 
 const path = require("path");
 const getAllFiles = function(dirPath, arrayOfFiles) {
@@ -29,8 +29,8 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
 function main()
 {
 	var args = process.argv.slice(2);
-	const result = getAllFiles("./app/server-side")
-	//const result = getAllFiles('/home/vaishnavidoraiswamy/checkbox.io/server-side/site/')
+	//const result = getAllFiles("./app/server-side")
+	const result = getAllFiles('/home/vaishnavidoraiswamy/checkbox.io/server-side/site/')
 
 	console.log(result)
 	
@@ -77,22 +77,22 @@ function FunctionBuilder()
 	// The max number of conditions if one decision statement.
 	this.MaxConditions      = 0;
 	this.MaxMsgChains = 0;
-	this.LOC=0
+	this.LOC=0;
 
 	this.report = function()
 	{
 		
 		if (LOC < this.LOC){
-			console.log(chalk.red("LOC threshold exceeded for ", "\"",this.FunctionName,"\"", " function in file --- ", "\"",this.FileName,"\""))
-			throw console.error("Threshold for LOC has been exceeded")
+			console.log("LOC threshold exceeded for ", "\"",this.FunctionName,"\"")
+			throw console.error("Threshold for LOC has been exceeded");
 		}
 		if (nesting_if < this.MaxNestingDepth){
-			console.log(chalk.red("Nested if threshold has been exceeded for ", "\"",this.FunctionName,"\"", " function in file ---", this.FileName))
-			throw console.error("Threshold for Nestedif has been exceeded")
+			console.log("Nested if threshold has been exceeded for ", "\"",this.FunctionName,"\"")
+			throw console.error("Threshold for Nestedif has been exceeded");
 		}
 		if (chains < this. MaxMsgChains){
-			console.log(chalk.red("Max Msg chains has been exceeded ","\"",this.FunctionName,"\"", " function in file ---", this.FileName))
-			throw console.error("Max message chain has been exceeded")
+			console.log("Max Msg chains has been exceeded ","\"",this.FunctionName,"\"")
+			throw console.error("Max message chain has been exceeded");
 		}
 		
 		
