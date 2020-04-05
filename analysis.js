@@ -229,7 +229,7 @@ function complexity(filePath)
 						// console.log(local)
 						current = current + 1;
 						if (current>builder.MaxMsgChains){
-							builder.MaxMsgChains = local;
+							builder.MaxMsgChains = current;
 						}
 					}
 				
