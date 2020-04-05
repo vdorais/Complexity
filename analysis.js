@@ -1,9 +1,9 @@
 var esprima = require("esprima");
 var options = {tokens:true, tolerant: true, loc: true, range: true };
 var fs = require("fs");
-var LOC = 90;
-var chains = 10;
-var nesting_if = 5;
+var LOC = 1000;
+var chains = 100;
+var nesting_if = 50;
 
 const path = require("path");
 const getAllFiles = function(dirPath, arrayOfFiles) {
